@@ -4,10 +4,12 @@ import math, re, sys
 from io import readinstance, distance, nearestcity
 import timeit
 
-# SPEED DATA
+# SPEED DATA for EXHAUSTIVE NEAREST NEIGHBOR
 # 3 nodes takes 0.0001220703125 seconds
 # 76 nodes takes 0.454488039017 seconds
 # 280 nodes takes 53.8123698235 seconds
+# 386 nodes takes 176.600210905 seconds
+# 443 nodes takes 299.670012951 seconds
 
 cities = readinstance(sys.argv[1])
 
