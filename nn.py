@@ -2,6 +2,12 @@
 
 import math, re, sys
 from io import readinstance, distance, nearestcity
+import timeit
+
+# SPEED DATA
+# 3 nodes takes 0.0001220703125 seconds
+# 76 nodes takes 0.454488039017 seconds
+# 280 nodes takes 53.8123698235 seconds
 
 cities = readinstance(sys.argv[1])
 
@@ -13,7 +19,9 @@ currentcityidx = startcity
 
 finalanswer = 999999999999
 
-for x in range(len(cities)):
+start = timeit.default_timer() # start timer
+
+for x in range(len(cities)): # try nearest neighbor starting at all nodes
     tour = []
     startcity = x
     tour.append(startcity)
@@ -26,12 +34,13 @@ for x in range(len(cities)):
         currentcityidx = n[0]
         totaldistance += n[1]
 
-    # add final distance
+    # add final distance to return to your starting point
     totaldistance += distance(cities[tour[-1]], cities[startcity])
 
     print totaldistance
     # print tour
     if totaldistance < finalanswer: finalanswer = totaldistance
 
-
+stop = timeit.default_timer() # stop timer
 print "FINAL: " + str(finalanswer)
+print str(len(cities)) + " nodes takes " + str(stop - start) + " seconds"
