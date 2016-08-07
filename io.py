@@ -44,21 +44,19 @@ def nearestcity(currentcityidx, cities, tour):
 def nearestneighbor(startcity, cities):
     tour = []
     tour.append(startcity)
-    totaldistance = 0
     currentcityidx = startcity
     
     while len(tour) < len(cities):
         n = nearestcity(currentcityidx, cities, tour)
         tour.append(n[0])
         currentcityidx = n[0]
-        totaldistance += n[1]
 
-    # add final distance to return to your starting point
-    totaldistance += distance(cities[tour[-1]], cities[startcity])
-    
     r = []
-    r.append(totaldistance)
+    r.append(0)
     r.append(tour)
+
+    tourdistance(r, cities)
+    
     return r
 
 def outputtour(tour, filename):
@@ -67,14 +65,37 @@ def outputtour(tour, filename):
     for node in tour[1]:
         text_file.write(str(node) + '\n')
     text_file.close()
+
+# tourdistance()
+# takes a list with the first element as the (old) distance and the second element
+# is the tour, for example:
+# [12499, [3, 1, 0, 2]]
+# and update the first number (in the above example, 12499) = the distance, based 
+# on the coordinates in the cities array
+def tourdistance(tour, cities): # update the first element in tour with distance
+    tour[0] = 0
+    for idx in range(len(tour[1])-1):
+        tour[0] += distance(cities[tour[1][idx]],cities[tour[1][idx+1]])
+        # print str(tour[1][idx]) + " to " + str(tour[1][idx+1]) + " is " + str(distance(cities[idx],cities[idx+1]))
+    tour[0] += distance(cities[tour[1][-1]],cities[tour[1][0]])
+    # print str(tour[1][-1]) + " to " + str(tour[1][0]) + " is " + str(distance(cities[idx],cities[idx+1]))
     
-# def tourdistance(tour, cities): # update the first element in tour with distance
-#     tour[0] = 0
-#     for node in tour[1]:
-        
-    
-# def twoopt(cities, tour):
-#     for range(10):
-#         #Choose 2 random cities
-#         city1 = random.randint(0,len([1,2,3])-1)
-#         city2 = 
+def twoopt(cities, tour):
+    optimized = False
+    while optimized == False:
+        tour2 = tour[:] #COPIES list; does not point to it
+        # Choose 2 random cities
+        city1 = random.randint(0,len(cities)-1)
+        city2 = (city1 + random.randint(0, len(cities)-2)) % len(cities)
+        # print "random1: " + str(city1) + " random2: " + str(city2)
+        # print str(tour)
+        # print "index1: " + str(tour[1].index(city1)) + " index2: " + str(tour[1].index(city2))
+        # Swap edges and get distances
+        a, b = tour[1].index(city1), tour[1].index(city2)
+        tour2[1][b], tour2[1][a] = tour[1][a], tour[1][b]
+        tourdistance(tour2, cities)
+        print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
+        if tour[0] > tour2[0]:
+            print "OPTIMIZE"
+            optimized = True
+            tour = tour2[:]
