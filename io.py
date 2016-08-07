@@ -41,5 +41,23 @@ def nearestcity(currentcityidx, cities, tour):
                 
     return index, shortestdist # (index of closest neighbor, the distance to it)
 
+def nearestneighbor(startcity, cities):
+    tour = []
+    tour.append(startcity)
+    totaldistance = 0
+    currentcityidx = startcity
+    
+    while len(tour) < len(cities):
+        n = nearestcity(currentcityidx, cities, tour)
+        tour.append(n[0])
+        currentcityidx = n[0]
+        totaldistance += n[1]
+
+    # add final distance to return to your starting point
+    totaldistance += distance(cities[tour[-1]], cities[startcity])
+    
+    print totaldistance #DEBUG
+
+    return totaldistance, tour
 
 # print readinstance(sys.argv[1])
