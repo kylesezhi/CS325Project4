@@ -55,9 +55,12 @@ def nearestneighbor(startcity, cities):
 
     # add final distance to return to your starting point
     totaldistance += distance(cities[tour[-1]], cities[startcity])
-    
-    print totaldistance #DEBUG
 
     return totaldistance, tour
 
-# print readinstance(sys.argv[1])
+def outputtour(tour, filename):
+    text_file = open(filename, "w")
+    text_file.write(str(tour[0]) + '\n')
+    for node in tour[1]:
+        text_file.write(str(node) + '\n')
+    text_file.close()

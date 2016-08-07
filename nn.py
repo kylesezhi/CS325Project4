@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import math, re, sys
-from io import readinstance, distance, nearestneighbor
+from io import readinstance, distance, nearestneighbor, outputtour
 import timeit
 
 # SPEED DATA for EXHAUSTIVE NEAREST NEIGHBOR
@@ -12,6 +12,7 @@ import timeit
 # 443 nodes takes 299.670012951 seconds
 
 cities = readinstance(sys.argv[1])
+# filename = sys.argv[1] + ".tour"
 
 tour = []
 startcity = 0
@@ -23,10 +24,13 @@ finalanswer = 999999999999
 
 start = timeit.default_timer() # start timer
 
-for startcity in range(len(cities)): # try nearest neighbor starting at all nodes
-    thistour = nearestneighbor(startcity, cities)
-    if thistour[0] < finalanswer: finalanswer = thistour[0]
+# for startcity in range(len(cities)): # try nearest neighbor starting at all nodes
+#     thistour = nearestneighbor(startcity, cities)
+#     if thistour[0] < finalanswer: finalanswer = thistour[0]
+thistour = nearestneighbor(startcity, cities)
 
 stop = timeit.default_timer() # stop timer
-print "FINAL: " + str(finalanswer)
+# outputtour(finalanswer)
+outputtour(thistour, sys.argv[1] + ".tour")
+# outputtour(thistour, filename)
 print str(len(cities)) + " nodes takes " + str(stop - start) + " seconds"
