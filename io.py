@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import math, re, sys, random
+from copy import deepcopy
 
 # readinstance() and distance() have been taken from the Canvas materials (thx!)
 
@@ -75,27 +76,68 @@ def outputtour(tour, filename):
 def tourdistance(tour, cities): # update the first element in tour with distance
     tour[0] = 0
     for idx in range(len(tour[1])-1):
+        # print len(tour[1])
+        # print len(cities)
         tour[0] += distance(cities[tour[1][idx]],cities[tour[1][idx+1]])
         # print str(tour[1][idx]) + " to " + str(tour[1][idx+1]) + " is " + str(distance(cities[idx],cities[idx+1]))
     tour[0] += distance(cities[tour[1][-1]],cities[tour[1][0]])
     # print str(tour[1][-1]) + " to " + str(tour[1][0]) + " is " + str(distance(cities[idx],cities[idx+1]))
     
+# def randomswap(cities, tour):
+#     optimized = False
+#     while optimized == False:
+#         tour2 = deepcopy(tour) #COPIES list; does not point to it
+#         # Choose 2 random cities
+#         city1 = random.randint(0,len(cities)-1)
+#         city2 = (city1 + random.randint(0, len(cities)-2)) % len(cities)
+#         # print "random1: " + str(city1) + " random2: " + str(city2)
+#         # print str(tour)
+#         # print "index1: " + str(tour[1].index(city1)) + " index2: " + str(tour[1].index(city2))
+#         # Swap edges and get distances
+#         a, b = tour[1].index(city1), tour[1].index(city2)
+#         tour2[1][b], tour2[1][a] = tour[1][a], tour[1][b]
+#         tourdistance(tour2, cities)
+#         print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
+#         if tour[0] > tour2[0]:
+#             print "OPTIMIZE"
+#             optimized = True
+#             tour = deepcopy(tour2)
+    
+# http://www.technical-recipes.com/2012/applying-c-implementations-of-2-opt-to-travelling-salesman-problems/        
 def twoopt(cities, tour):
-    optimized = False
-    while optimized == False:
-        tour2 = tour[:] #COPIES list; does not point to it
-        # Choose 2 random cities
-        city1 = random.randint(0,len(cities)-1)
-        city2 = (city1 + random.randint(0, len(cities)-2)) % len(cities)
-        # print "random1: " + str(city1) + " random2: " + str(city2)
-        # print str(tour)
-        # print "index1: " + str(tour[1].index(city1)) + " index2: " + str(tour[1].index(city2))
-        # Swap edges and get distances
-        a, b = tour[1].index(city1), tour[1].index(city2)
-        tour2[1][b], tour2[1][a] = tour[1][a], tour[1][b]
-        tourdistance(tour2, cities)
-        print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
-        if tour[0] > tour2[0]:
-            print "OPTIMIZE"
-            optimized = True
-            tour = tour2[:]
+    size = len(cities)
+    improve = 0
+    while (improve < 20): #FIXME change to 20
+        for i in range(0,size-1):
+            for j in range(i+1,size):
+                tour2 = deepcopy(tour) #COPIES list; does not point to it (default = points to it)
+                twooptswap(tour2, i, j)
+                tourdistance(tour2, cities) # update tourlength
+                # print tour
+                # print "----------"
+                # print tour2
+                print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
+                if tour[0] > tour2[0]: 
+                    print "OPTIMIZE FOUND"
+                    improve = 0
+                    tour = deepcopy(tour2)
+        improve += 1
+
+def twooptswap(tour, i, k):
+    newtour = deepcopy(tour)
+    for x in range(len(newtour[1])):
+        newtour[1][x] = -1
+    # add tour[0] to tour[i-1] IN ORDER to the newtour
+    for x in range(i):
+        newtour[1][x] = tour[1][x]
+    # add tour[i] to tour[k] IN REVERSE ORDER to the newtour
+    r = tour[1][i:k+1]
+    r.reverse()
+    for idx,x in enumerate(range(i,k+1)):
+        newtour[1][x] = r[idx]
+    # add tour[k+1] to the end IN ORDER to the newtour
+    for x in range(k+1,len(tour[1])):
+        newtour[1][x] = tour[1][x]
+    tour = newtour
+    print tour
+    print newtour

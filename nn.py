@@ -23,18 +23,12 @@ finalanswer = 999999999999
 
 start = timeit.default_timer() # start timer
 
-# for startcity in range(len(cities)): # try nearest neighbor starting at all nodes
-#     thistour = nearestneighbor(startcity, cities)
-#     if thistour[0] < finalanswer: finalanswer = thistour[0]
-thistour = nearestneighbor(startcity, cities)
+if len(cities) < 386: # over length of 386 and NN doesnt work fast enough
+    for startcity in range(len(cities)): # try nearest neighbor starting at all nodes
+        thistour = nearestneighbor(startcity, cities)
+        if thistour[0] < finalanswer: finalanswer = deepcopy(thistour)
 
-stop = timeit.default_timer() # stop timer
-# outputtour(finalanswer)
-print "LENGTH: " + str(thistour[0])
-
-outputtour(thistour, sys.argv[1] + ".group3.tour")
-# outputtour(thistour, filename)
-print str(len(cities)) + " nodes takes " + str(stop - start) + " seconds"
-print "2OPT:"
-twoopt(cities, thistour)
-print "LENGTH: " + str(thistour[0])
+    stop = timeit.default_timer() # stop timer
+    
+outputtour(finalanswer, sys.argv[1] + ".group3.tour")
+# print str(len(cities)) + " nodes takes " + str(stop - start) + " seconds"
