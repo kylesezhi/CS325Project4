@@ -48,6 +48,7 @@ def nearestneighbor(startcity, cities):
     currentcityidx = startcity
     
     while len(tour) < len(cities):
+        print len(tour) #DEBUG
         n = nearestcity(currentcityidx, cities, tour)
         tour.append(n[0])
         currentcityidx = n[0]
