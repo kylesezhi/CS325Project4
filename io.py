@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import math, re, sys
+import math, re, sys, random
 
 # readinstance() and distance() have been taken from the Canvas materials (thx!)
 
@@ -48,7 +48,6 @@ def nearestneighbor(startcity, cities):
     currentcityidx = startcity
     
     while len(tour) < len(cities):
-        print len(tour) #DEBUG
         n = nearestcity(currentcityidx, cities, tour)
         tour.append(n[0])
         currentcityidx = n[0]
@@ -56,8 +55,11 @@ def nearestneighbor(startcity, cities):
 
     # add final distance to return to your starting point
     totaldistance += distance(cities[tour[-1]], cities[startcity])
-
-    return totaldistance, tour
+    
+    r = []
+    r.append(totaldistance)
+    r.append(tour)
+    return r
 
 def outputtour(tour, filename):
     text_file = open(filename, "w")
@@ -65,3 +67,14 @@ def outputtour(tour, filename):
     for node in tour[1]:
         text_file.write(str(node) + '\n')
     text_file.close()
+    
+# def tourdistance(tour, cities): # update the first element in tour with distance
+#     tour[0] = 0
+#     for node in tour[1]:
+        
+    
+# def twoopt(cities, tour):
+#     for range(10):
+#         #Choose 2 random cities
+#         city1 = random.randint(0,len([1,2,3])-1)
+#         city2 = 

@@ -31,6 +31,9 @@ thistour = nearestneighbor(startcity, cities)
 
 stop = timeit.default_timer() # stop timer
 # outputtour(finalanswer)
+print "FINAL: " + str(thistour[0])
+print "THEN we 2opt and get:"
+
 outputtour(thistour, sys.argv[1] + ".group3.tour")
 # outputtour(thistour, filename)
 print str(len(cities)) + " nodes takes " + str(stop - start) + " seconds"
