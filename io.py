@@ -57,7 +57,7 @@ def nearestneighbor(startcity, cities):
     r.append(tour)
     
     tourdistance(r, cities)
-    print r
+    # print r
     
     return r
 
