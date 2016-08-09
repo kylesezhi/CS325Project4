@@ -141,3 +141,21 @@ def twooptswap(tour, i, k):
     tour = newtour
     print tour
     print newtour
+
+
+def twoopt2(cities, tour):
+    size = len(tour)
+    improve = 0
+    tour2 = deepcopy(tour)
+    while improve < 20:
+        best_distance = tourdistance(tour, cities)
+        for i in range(0,size - 1):
+            for x in range((i+1), size):
+                twooptswap(tour2, i, x)
+                newdistance = tourdistance(tour2, cities)
+                if newdistance < best_distance:
+                    improve = 0
+                    tour = tour2
+                    best_distance = newdistance
+                    print best_distance
+        improve += 1
