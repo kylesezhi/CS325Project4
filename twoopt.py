@@ -8,7 +8,6 @@ cities = readinstance(sys.argv[1])
 
 tour = []
 
-print "RANDOM"
 shufcities = deepcopy(thistour)
 random.shuffle(shufcities[1])
 print "----------"
