@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import math, re, sys
-from io import *
+from ioio import *
 import timeit
 
 cities = readinstance(sys.argv[1])
