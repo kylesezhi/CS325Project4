@@ -36,10 +36,11 @@ else:
             if ((timeit.default_timer() - start) > MAXTIME): break
             tour2 = twooptswap(tour, i, j)
             tourdistance(tour2, cities) # update tourlength
-            print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
+            #print "tour: " + str(tour[0]) + " tour2: " + str(tour2[0])
             if tour[0] > tour2[0]: 
-                print "OPTIMIZE FOUND"
+                #print "OPTIMIZE FOUND"
                 tour = deepcopy(tour2)
+    stop = timeit.default_timer()
     finalanswer = tour
-    
+print (stop - start)
 outputtour(finalanswer, sys.argv[1] + ".group3.tour")
