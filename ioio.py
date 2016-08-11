@@ -144,41 +144,37 @@ def twooptswap(tour, i, k):
     # add tour[k+1] to the end IN ORDER to the newtour
     for x in range(k+1,len(tour[1])):
         newtour[1][x] = tour[1][x]
-    # print newtour
-    # tour = deepcopy(newtour)
     return newtour
-    # print tour
-    # print newtour
 
 
-def twoopt2(cities, tour):
-    size = len(tour)
-    improve = 0
-    tour2 = deepcopy(tour)
-    while improve < 20:
-        best_distance = tourdistance(tour, cities)
-        for i in range(0,size - 1):
-            for x in range((i+1), size):
-                twooptswap(tour2, i, x)
-                newdistance = tourdistance(tour2, cities)
-                if newdistance < best_distance:
-                    improve = 0
-                    tour = tour2
-                    best_distance = newdistance
-                    print best_distance
-        improve += 1
-
-def twooptswap2(tour, i, k):
-    size = len(tour)
-    newtour = deepcopy(tour)
-    for c in range(0,i):
-        newtour[1][c] = tour[1][c]
-    dec = 0
-    for x in range(i, k+1):
-        newtour[1][x] = tour[1][k - dec]
-        dec += 1
-    for x in range(k+1,len(tour[1])):
-        newtour[1][x] = tour[1][x]
-    tour = newtour
-    print tour
-    print newtour
+# def twoopt2(cities, tour):
+#     size = len(tour)
+#     improve = 0
+#     tour2 = deepcopy(tour)
+#     while improve < 20:
+#         best_distance = tourdistance(tour, cities)
+#         for i in range(0,size - 1):
+#             for x in range((i+1), size):
+#                 twooptswap(tour2, i, x)
+#                 newdistance = tourdistance(tour2, cities)
+#                 if newdistance < best_distance:
+#                     improve = 0
+#                     tour = tour2
+#                     best_distance = newdistance
+#                     print best_distance
+#         improve += 1
+# 
+# def twooptswap2(tour, i, k):
+#     size = len(tour)
+#     newtour = deepcopy(tour)
+#     for c in range(0,i):
+#         newtour[1][c] = tour[1][c]
+#     dec = 0
+#     for x in range(i, k+1):
+#         newtour[1][x] = tour[1][k - dec]
+#         dec += 1
+#     for x in range(k+1,len(tour[1])):
+#         newtour[1][x] = tour[1][x]
+#     tour = newtour
+#     print tour
+#     print newtour
