@@ -108,11 +108,11 @@ def tourdistance(tour, cities): # update the first element in tour with distance
 def twoopt(cities, tour):
     size = len(cities)
     improve = 0
-    while (improve < 20): #FIXME change to 20
+    while (improve < 20):
         for i in range(0,size-1):
             for j in range(i+1,size):
-                tour2 = deepcopy(tour) #COPIES list; does not point to it (default = points to it)
-                twooptswap(tour2, i, j)
+                # tour2 = deepcopy(tour) #COPIES list; does not point to it (default = points to it)
+                tour2 = twooptswap(tour, i, j)
                 tourdistance(tour2, cities) # update tourlength
                 # print tour
                 # print "----------"
@@ -124,6 +124,11 @@ def twoopt(cities, tour):
                     tour = deepcopy(tour2)
         improve += 1
 
+# takes a list tour with the first element as the distance and the second element
+# is the tour, for example:
+# [12499, [3, 1, 0, 2]]
+# and a cities array, for example:
+# [[2, 3], [4,5], [5,3]]
 def twooptswap(tour, i, k):
     newtour = deepcopy(tour)
     for x in range(len(newtour[1])):
@@ -139,9 +144,11 @@ def twooptswap(tour, i, k):
     # add tour[k+1] to the end IN ORDER to the newtour
     for x in range(k+1,len(tour[1])):
         newtour[1][x] = tour[1][x]
-    tour = newtour
-    print tour
-    print newtour
+    # print newtour
+    # tour = deepcopy(newtour)
+    return newtour
+    # print tour
+    # print newtour
 
 
 def twoopt2(cities, tour):
